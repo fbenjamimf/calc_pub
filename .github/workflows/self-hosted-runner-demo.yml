@@ -21,7 +21,7 @@ jobs:
 
       - name: Instalar utilitário curl (exemplo de apt)
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y curl
+        run: sudo dnf install -y curl
 
       - name: Verificar versão do Java
         run: java -version
