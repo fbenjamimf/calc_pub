@@ -1,0 +1,33 @@
+# .github/workflows/deploy-dev.yml
+name: Deploy to Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy-dev:
+    name: Deploy para Ambiente Dev
+    runs-on: ubuntu-latest
+
+    environment:
+      name: dev        # Deve existir o environment 'dev' no repositório (Settings > Environments)
+      url: https://dev.devcalc.app   # Exemplo de URL (pode ser placeholder)
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build e testes
+        run: mvn clean package
+
+      - name: Deploy simulado em Dev
+        run: |
+          echo "Deploy para Dev concluído com sucesso."
