@@ -1,0 +1,44 @@
+name: Env Context Demo
+
+on:
+  workflow_dispatch:
+
+# Variável em nível de workflow
+env:
+  WORKFLOW_LEVEL_VAR: "workflow_value"
+
+jobs:
+  show-env-scopes:
+    name: Exibir Contextos e Variáveis de Ambiente
+    runs-on: ubuntu-latest
+
+    # Variável em nível de job
+    env:
+      JOB_LEVEL_VAR: "job_value"
+      STAGE: test
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Exibir variáveis e contextos (step 1)
+        env:
+          STEP_LEVEL_VAR: "step1_value"
+        run: |
+          echo "=== Step 1 ==="
+          echo "Usuário que acionou: ${{ github.actor }}"
+          echo "Sistema operacional do runner: ${{ runner.os }}"
+          echo "WORKFLOW_LEVEL_VAR = $WORKFLOW_LEVEL_VAR"
+          echo "JOB_LEVEL_VAR = $JOB_LEVEL_VAR"
+          echo "STEP_LEVEL_VAR = $STEP_LEVEL_VAR"
+          echo "STAGE = $STAGE"
+
+      - name: Exibir variáveis e contextos (step 2, sobrescrevendo STAGE)"
+        env:
+          STAGE: production
+        run: |
+          echo "=== Step 2 ==="
+          echo "WORKFLOW_LEVEL_VAR = $WORKFLOW_LEVEL_VAR"
+          echo "JOB_LEVEL_VAR = $JOB_LEVEL_VAR"
+          echo "STEP_LEVEL_VAR (não definido aqui) = ${STEP_LEVEL_VAR:-<não definido>}"
+          echo "STAGE (sobrescrito) = $STAGE"
