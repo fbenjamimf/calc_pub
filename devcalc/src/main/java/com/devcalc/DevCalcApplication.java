@@ -1,4 +1,4 @@
-package package com.devcalc;
+package com.devcalc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
